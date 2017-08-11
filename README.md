@@ -1,28 +1,17 @@
-# Storeme
+### Storeme
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
+- [x]1a. Необходимо разработать SPA, которая позволит хранить/отображать магазины и товары магазинов пока существует страница.
+```
+Описание сущностей:
+	Магазин: наименование, адрес, режим работы, порядковый номер.
+	Товар: название, описание.
+```
+- [x] 1b. Нужно сделать страницу, которая будет выводить список магазинов
 
-## Development server
+- [ ] Не обязательно, будет плюсом вашему заданию: список должен быть в виде draggable между собой блоков, при изменении своей позиции у магазина должен меняться его личный порядковый номер.
+- [x] В каждом блоке должна быть ссылка на товары магазина. По нажатии на ссылку отображение товаров магазина в виде таблицы.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- [x] Не обязательно, будет плюсом вашему заданию:
+На этой же странице должна отображаться карта с указателями магазинов, позиция должна определяться автоматически по адресу.
+- [x] 2. Добавление/редактирование магазинов / товаров достаточно сделать на клиенте (не нужно сохранять в БД).
+- [x] 3. Страница должна быть responsive.
