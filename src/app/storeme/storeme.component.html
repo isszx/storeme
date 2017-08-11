@@ -1,0 +1,162 @@
+<div class="row mx-0 my-4">
+  <form class="col-md-6 col-sm-12 my-sm-4" [formGroup]="sForm" (ngSubmit)="addShop(sForm.value); sForm.reset();">
+    <h3 class="text-center">Add shop</h3>
+
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label" for="shop-name">Shop Name</label>
+      <div class="col-9"><input id="shop-name" class="form-control" type="text" formControlName="name" placeholder="Shop name"></div>
+    </div>
+
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label" for="shop-address">Shop Address</label>
+      <div class="col-9"><input id="shop-address" class="form-control" type="text" formControlName="address" placeholder="Shop address"></div>
+    </div>
+
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label">Start work time</label>
+      <div class="col-3"><input class="form-control" type="number" formControlName="wtsh" max="23" min="0" maxlength="2" placeholder="00"></div>
+      <div class="col-3"><input class="form-control" type="number" formControlName="wtsm" max="59" min="0" maxlength="2" placeholder="00"></div>
+    </div>
+
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label">End work time</label>
+      <div class="col-3"><input class="form-control" type="number" formControlName="wteh" max="23" min="0" maxlength="2" placeholder="00"></div>
+      <div class="col-3"><input class="form-control" type="number" formControlName="wtem" max="59" min="0" maxlength="2" placeholder="00"></div>
+    </div>
+
+    <div class="col-10 mx-auto">
+      <input type="submit" class="btn btn-outline-success btn-block" value="Add shop" [disabled]="!sForm.valid">
+    </div>
+  </form>
+
+  <form  class="col-md-6 col-sm-12 my-sm-4" [formGroup]="pForm" (ngSubmit)="addProduct(pForm.value); pForm.reset();">
+    <h3 class="text-center">Add product</h3>
+
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label" for="for-shop">For shop</label>
+      <div class="col-9">
+        <select class="form-control" formControlName="forShop" id="for-shop">
+          <option *ngFor="let shop of shops" value="{{ shop.id }}">{{ shop.title }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label" for="ppoduct-name">Product name</label>
+      <div class="col-9"><input class="form-control" type="text" id="ppoduct-name" formControlName="pName" placeholder="Product name"></div>
+    </div>
+    <div class="form-group row mx-0">
+      <label class="col-3 col-form-label" for="poduct-description">Product description</label>
+      <div class="col-9"><textarea class="form-control" id="poduct-description" formControlName="description" placeholder="Description minimum 20 - maximum 500 characters"></textarea></div>
+    </div>
+
+    <div class="col-10 mx-auto">
+        <input type="submit" class="btn btn-outline-success btn-block" value="Add product" [disabled]="!pForm.valid">
+    </div>
+  </form>
+</div>
+
+<hr *ngIf="shops.length > 0">
+
+<div class="row mx-0" *ngIf="shops.length > 0">
+  <table class="table-sm mx-auto table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Shop name</th>
+        <th>Work time</th>
+        <th>Address</th>
+        <th>Control</th>
+        <th>Product list</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let shop of shops">
+        <td>
+          <span id="shop-id-{{shop.id}}">{{ shop.id }}</span>
+        </td>
+        <td>
+          <span id="shop-title-{{shop.id}}">{{ shop.title }}</span>
+        </td>
+        <td>
+          <span id="shop-wt-{{shop.id}}">
+            {{
+              shop.work_time.start.hours
+            }}:{{
+              shop.work_time.start.minutes >= 10 ?
+              shop.work_time.start.minutes :
+              '0' + shop.work_time.start.minutes
+            }} - {{
+              shop.work_time.end.hours
+            }}:{{
+              shop.work_time.end.minutes >= 10 ?
+              shop.work_time.end.minutes :
+              '0' + shop.work_time.end.minutes
+            }}
+          </span>
+        </td>
+        <td>
+          <span id="shop-addrs-{{shop.id}}">{{ shop.address }}</span>
+        </td>
+        <td>
+          <input type="button" value="Delete" class="btn btn-sm btn-outline-danger" (click)="deleteShop(shop)" >
+          <input type="button" id="shopEd-{{ shop.id }}" value="Edit" class="btn btn-sm btn-outline-warning" (click)="enableEditMode(shop)">
+          <input type="button" id="shopSv-{{ shop.id }}" value="Save" class="btn btn-sm btn-outline-success d-none" (click)="disableEditMode(shop.id, shop)">
+        </td>
+        <td>
+          <input type="button" value="Product list" class="btn btn-sm btn-outline-info" (click)="getProducts(shop)">
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr *ngIf="products.length > 0">
+
+<div class="row mx-0" *ngIf="products.length > 0">
+  <table class="table-sm mx-auto table-hover table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Product name</th>
+      <th>Product description</th>
+      <th>Control</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+      <th>
+        <span id="prod-id-{{ product.id }}">{{ product.id }}</span>
+      </th>
+      <td>
+        <span id="prod-title-{{ product.id }}">{{ product.title }}</span>
+      </td>
+      <td>
+        <span id="prod-description-{{ product.id }}">{{ product.description }}</span>
+      </td>
+      <td>
+        <input type="button" value="Delete" class="btn btn-sm btn-outline-danger" (click)="deleteProduct(product)">
+        <input type="button" value="Edit" id="prodEd-{{ product.id }}" class="btn btn-sm btn-outline-warning" (click)="enableEditProduct(product)">
+        <input type="button" value="Save" id="prodSv-{{ product.id }}" class="btn btn-sm btn-outline-success d-none" (click)="disableEditProduct(product)">
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+<div class="d-block mx-5">
+  <label for="reloader" class="text-center">If not loaded all markers please click the button</label>
+  <input type="button" value="Reload Markers" class="text-center btn btn-sm btn-outline-primary" (click)="generate()" id="reloader">
+</div>
+<hr>
+
+<agm-map
+  [latitude]="lat"
+  [longitude]="lng"
+  [zoom]="11">
+  <agm-marker
+    [latitude]="m.lat"
+    [longitude]="m.lng"
+    [label]="m.label"
+    *ngFor="let m of markers; let i = index">
+  </agm-marker>
+</agm-map>
